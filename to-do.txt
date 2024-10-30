@@ -1,0 +1,3 @@
+1. Logar o Usuário a partir da pagina
+2. Tratar autorização e permitir login
+3. Enviar infos do jogador para o servidor
