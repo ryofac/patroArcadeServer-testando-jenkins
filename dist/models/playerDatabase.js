@@ -12,7 +12,8 @@ exports.playerDatabase = [
         highestScore: 0,
         coinsCollected: 0,
         avatarIndex: 1,
-        colorIndex: 1
+        colorIndex: 1,
+        userId: 2,
     },
     {
         name: "Patrocinio",
@@ -24,6 +25,7 @@ exports.playerDatabase = [
         highestScore: 250,
         coinsCollected: 0,
         avatarIndex: 1,
-        colorIndex: 1
-    }
+        colorIndex: 1,
+        userId: 1,
+    },
 ];

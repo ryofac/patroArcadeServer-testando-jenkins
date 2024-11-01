@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.disconnectPlayer = exports.connectPlayer = void 0;
+exports.getConnectedPlayerId = exports.disconnectPlayer = exports.connectPlayer = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const playerRoutes_1 = require("./routes/playerRoutes");
@@ -12,6 +12,7 @@ const leaderboardRoutes_1 = require("./routes/leaderboardRoutes");
 const scoreRoutes_1 = require("./routes/scoreRoutes");
 const loginRoutes_1 = require("./routes/loginRoutes");
 const logoutRoutes_1 = require("./routes/logoutRoutes");
+const main_1 = require("./main");
 // Criar a instância do Express
 const app = (0, express_1.default)();
 // Middleware de limitação de requisições
@@ -24,14 +25,9 @@ app.use("/leaderboard", leaderboardRoutes_1.leaderboardRoutes);
 app.use("/score", scoreRoutes_1.scoreRoutes);
 app.use("/login", loginRoutes_1.loginRoutes);
 app.use("/logout", logoutRoutes_1.logoutRoutes);
-// Configurar sessões
-// app.use(session({
-//     secret: 'patrocinioads2024',    // Uma string usada para assinar a sessão
-//     resave: false,                  // Não salvar a sessão se nada mudou
-//     saveUninitialized: true,        // Salvar sessões novas mesmo sem dados
-//     cookie: { secure: false }       // 'secure' deve ser true se estiver usando HTTPS
-// }));
-let connectedPlayerId = null; // Para armazenar o ID do jogador conectado
+// TODO: Configurar sessões
+//
+let connectedPlayerId = null; // Para armazenar o ID do jogador conectado.
 // Função para conectar o jogador
 function connectPlayer(playerId) {
     if (connectedPlayerId === null) {
@@ -46,6 +42,14 @@ exports.connectPlayer = connectPlayer;
 function disconnectPlayer(playerId) {
     if (connectedPlayerId === playerId) {
         console.log(`> DISCONNECTED: ${playerId}`);
+        main_1.wss.clients.forEach((client) => {
+            //   client.send(
+            //     JSON.stringify({
+            //       type: "playerLeft",
+            //       content: `O jogador ${playerId} foi desconectado.`,
+            //     })
+            //   );
+        });
         connectedPlayerId = null;
     }
     else {
@@ -53,6 +57,10 @@ function disconnectPlayer(playerId) {
     }
 }
 exports.disconnectPlayer = disconnectPlayer;
+function getConnectedPlayerId() {
+    return connectedPlayerId;
+}
+exports.getConnectedPlayerId = getConnectedPlayerId;
 // Definir rota inicial:
 app.get("/", (req, res) => {
     console.log("Rota inicial acessada");

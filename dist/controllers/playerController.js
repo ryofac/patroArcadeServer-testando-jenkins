@@ -10,14 +10,14 @@ const getPlayerData = (req, res) => {
         console.log(`Fornecendo dados do jogador: ${playerName}`);
         res.json({
             type: "playerData",
-            content: player
+            content: player,
         });
     }
     else {
         console.log(`Jogador não encontrado: ${playerName}`);
         res.status(404).json({
             type: "playerData",
-            content: `Player ${playerName} not found`
+            content: `Player ${playerName} not found`,
         });
     }
 };
@@ -27,7 +27,7 @@ const getLeaderBoard = (req, res) => {
     const leaderboard = (0, playerService_1.getLeaderboardData)();
     res.json({
         type: "leaderboard",
-        content: leaderboard
+        content: leaderboard,
     });
 };
 exports.getLeaderBoard = getLeaderBoard;
@@ -42,18 +42,18 @@ const createNewPlayer = (req, res) => {
         console.log("Jogador já existe");
         res.status(400).json({
             type: "error",
-            content: `Player ${playerName} already exists`
+            content: `Player ${playerName} already exists`,
         });
     }
     else {
         // Caso o jogador não exista, criar um novo jogador.
         console.log("Criando como novo jogador");
-        const newPlayer = (0, playerService_1.generateNewPlayer)(playerName);
+        const newPlayer = (0, playerService_1.generateNewPlayer)(playerName, 1);
         // Adicionar o novo jogador ao banco de dados
         (0, playerService_1.addPlayerToDatabase)(newPlayer);
         res.json({
             type: "newPlayerData",
-            content: newPlayer
+            content: newPlayer,
         });
     }
 };

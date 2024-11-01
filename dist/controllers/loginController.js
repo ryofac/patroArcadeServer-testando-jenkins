@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tryToLogin = void 0;
 const userService_1 = require("../services/userService");
 const app_1 = require("../app");
+const main_1 = require("../main");
+const playerService_1 = require("../services/playerService");
 function tryToLogin(req, res) {
     // Analisar credenciais recebidas
     const { username, password } = req.body;
@@ -12,11 +14,19 @@ function tryToLogin(req, res) {
         // Verifica se já existe um player conectado.
         if ((0, app_1.connectPlayer)(username)) {
             res.status(200);
+            const playerData = (0, playerService_1.getPlayerByUserId)((0, userService_1.getUserDataByUserName)(username).id);
             res.json({
                 type: "loginSuccess",
-                content: "Login bem-sucedido.",
+                content: playerData,
             });
-            console.log("Login bem-sucedido.");
+            // Enviar mensagem para o WebSocket
+            main_1.wss.clients.forEach((client) => {
+                client.send(JSON.stringify({
+                    type: "playerJoined",
+                    content: playerData,
+                }));
+            });
+            console.log("[LoginController] [tryToLogin]\nLogin bem-sucedido.");
         }
         else {
             res.status(403).json({

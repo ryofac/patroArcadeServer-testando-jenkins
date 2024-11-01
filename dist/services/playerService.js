@@ -1,26 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addPlayerToDatabase = exports.generateNewPlayer = exports.getLeaderboardData = exports.getPlayerByName = void 0;
+exports.getPlayerByUserId = exports.addPlayerToDatabase = exports.generateNewPlayer = exports.getLeaderboardData = exports.getPlayerByName = void 0;
 // Serviços para Manipulação de Dados
 const playerDatabase_1 = require("../models/playerDatabase");
 // Retornar os dados de um jogaor específico
 const getPlayerByName = (name) => {
-    return playerDatabase_1.playerDatabase.find(player => player.name === name);
+    return playerDatabase_1.playerDatabase.find((player) => player.name === name);
 };
 exports.getPlayerByName = getPlayerByName;
 // Retornar o Leaderboard
 const getLeaderboardData = () => {
     return playerDatabase_1.playerDatabase
         .sort((a, b) => b.totalScore - a.totalScore)
-        .map(player => ({
+        .map((player) => ({
         name: player.name,
         totalScore: player.totalScore,
-        rankLevel: player.rankLevel
+        rankLevel: player.rankLevel,
     }));
 };
 exports.getLeaderboardData = getLeaderboardData;
 // Gera um novo objeto de jogador
-function generateNewPlayer(playerName) {
+function generateNewPlayer(playerName, userId) {
     const _data = {
         name: playerName,
         rankLevel: 1,
@@ -31,7 +31,8 @@ function generateNewPlayer(playerName) {
         highestScore: 0,
         coinsCollected: 0,
         avatarIndex: 1,
-        colorIndex: 1
+        colorIndex: 1,
+        userId: userId,
     };
     return _data;
 }
@@ -41,3 +42,11 @@ function addPlayerToDatabase(playerData) {
     playerDatabase_1.playerDatabase.push(playerData);
 }
 exports.addPlayerToDatabase = addPlayerToDatabase;
+function getPlayerByUserId(userId) {
+    const player = playerDatabase_1.playerDatabase.find((player) => player.userId === userId);
+    if (!player) {
+        throw new Error(`Player with userId ${userId} not found`);
+    }
+    return player;
+}
+exports.getPlayerByUserId = getPlayerByUserId;

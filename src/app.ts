@@ -7,6 +7,7 @@ import { leaderboardRoutes } from "./routes/leaderboardRoutes";
 import { scoreRoutes } from "./routes/scoreRoutes";
 import { loginRoutes } from "./routes/loginRoutes";
 import { logoutRoutes } from "./routes/logoutRoutes";
+import { wss } from "./main";
 
 // Criar a instância do Express
 const app: Application = express();
@@ -23,15 +24,11 @@ app.use("/score", scoreRoutes);
 app.use("/login", loginRoutes);
 app.use("/logout", logoutRoutes);
 
-// Configurar sessões
-// app.use(session({
-//     secret: 'patrocinioads2024',    // Uma string usada para assinar a sessão
-//     resave: false,                  // Não salvar a sessão se nada mudou
-//     saveUninitialized: true,        // Salvar sessões novas mesmo sem dados
-//     cookie: { secure: false }       // 'secure' deve ser true se estiver usando HTTPS
-// }));
+// TODO: Configurar sessões
 
-let connectedPlayerId: string | null = null; // Para armazenar o ID do jogador conectado
+//
+
+let connectedPlayerId: string | null = null; // Para armazenar o ID do jogador conectado.
 
 // Função para conectar o jogador
 export function connectPlayer(playerId: string): boolean {
@@ -44,13 +41,27 @@ export function connectPlayer(playerId: string): boolean {
 }
 
 // Função para desconectar o jogador
-export function disconnectPlayer(playerId: string): void {
+export function disconnectPlayer(playerId: string | null): void {
   if (connectedPlayerId === playerId) {
     console.log(`> DISCONNECTED: ${playerId}`);
+
+    wss.clients.forEach((client) => {
+      //   client.send(
+      //     JSON.stringify({
+      //       type: "playerLeft",
+      //       content: `O jogador ${playerId} foi desconectado.`,
+      //     })
+      //   );
+    });
+
     connectedPlayerId = null;
   } else {
     throw new Error("O jogador não está conectado.");
   }
+}
+
+export function getConnectedPlayerId(): string | null {
+  return connectedPlayerId;
 }
 
 // Definir rota inicial:

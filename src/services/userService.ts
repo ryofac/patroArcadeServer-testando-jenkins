@@ -8,3 +8,10 @@ export function checkCredentials(username: string, password: string): boolean {
   return !!user; // Retorna true se o usuário for encontrado, false caso contrário
 }
 
+export function getUserDataByUserName(username: string) {
+  const user = usersDatabase.find((u) => u.username === username);
+  if (!user) {
+    throw new Error(`User with username ${username} not found`);
+  }
+  return user;
+}
