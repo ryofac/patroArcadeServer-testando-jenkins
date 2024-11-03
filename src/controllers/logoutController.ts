@@ -2,20 +2,23 @@ import { Request, Response } from "express";
 import { disconnectPlayer } from "../app";
 import { wss } from "../main";
 import { getUserDataByUserName } from "../services/userService";
+import AppError from "../exceptions/appError";
 
 export function logout(req: Request, res: Response) {
   const { username } = req.body;
 
   try {
-    disconnectPlayer(username);
+    const userId = getUserDataByUserName(username).id;
+    disconnectPlayer(userId);
   } catch (error: any) {
-    console.error(
-      `[LOGOUT] Erro ao desconectar jogador ${username}: ${error.message}`
-    );
-    return res.status(400).json({
-      type: "logoutError",
-      content: error.message,
-    });
+    if (error instanceof AppError) {
+      res.status(error.statusCode).json({
+        type: "logoutError",
+        content: error.message,
+      });
+      console.log(`[LogoutController] [logout] ${error.message}.`);
+    }
+    return;
   }
 
   // Logout bem-sucedido

@@ -7,7 +7,16 @@ import { leaderboardRoutes } from "./routes/leaderboardRoutes";
 import { scoreRoutes } from "./routes/scoreRoutes";
 import { loginRoutes } from "./routes/loginRoutes";
 import { logoutRoutes } from "./routes/logoutRoutes";
-import { wss } from "./main";
+import { clients } from "./main";
+import { debugRoutes } from "./routes/debugRoutes";
+import { isAlreadyConnected, isClientFull } from "./services/userService";
+import {
+  AlreadyConnectedException,
+  ClientFullException,
+  ClientNotFoundException,
+  LoginException,
+} from "./exceptions/loginExceptions";
+import { clientExists } from "./services/clientService";
 
 // Criar a instância do Express
 const app: Application = express();
@@ -23,45 +32,42 @@ app.use("/leaderboard", leaderboardRoutes);
 app.use("/score", scoreRoutes);
 app.use("/login", loginRoutes);
 app.use("/logout", logoutRoutes);
+app.use("/debug", debugRoutes);
 
 // TODO: Configurar sessões
 
-//
-
-let connectedPlayerId: string | null = null; // Para armazenar o ID do jogador conectado.
-
-// Função para conectar o jogador
-export function connectPlayer(playerId: string): boolean {
-  if (connectedPlayerId === null) {
-    connectedPlayerId = playerId;
-    console.log(`> CONNECTED: ${playerId}`);
-    return true;
+// Função para conectar o jogador num fliperama específico
+export function connectPlayer(userId: number, clientId: number): void {
+  if (!clientExists(clientId)) {
+    throw new ClientNotFoundException();
   }
-  return false; // Se já houver um jogador conectado, não permite a conexão
+
+  if (isAlreadyConnected(userId)) {
+    throw new AlreadyConnectedException();
+  }
+
+  if (isClientFull(clientId)) {
+    throw new ClientFullException();
+  }
 }
 
 // Função para desconectar o jogador
-export function disconnectPlayer(playerId: string | null): void {
-  if (connectedPlayerId === playerId) {
-    console.log(`> DISCONNECTED: ${playerId}`);
-
-    wss.clients.forEach((client) => {
-      //   client.send(
-      //     JSON.stringify({
-      //       type: "playerLeft",
-      //       content: `O jogador ${playerId} foi desconectado.`,
-      //     })
-      //   );
-    });
-
-    connectedPlayerId = null;
-  } else {
-    throw new Error("O jogador não está conectado.");
-  }
+export function disconnectPlayer(playerId: number): void {
+  clients.forEach((client) => {
+    // Remover o jogador da lista de players do cliente.
+    console.log(client.players);
+    if (client.players.includes(playerId)) {
+      client.players.splice(client.players.indexOf(playerId), 1);
+      console.log(
+        `[DISCONNECT] Player ${playerId} disconnected from client ${client.id}.`
+      );
+    }
+  });
 }
 
 export function getConnectedPlayerId(): string | null {
-  return connectedPlayerId;
+  return "a";
+  //   return connectedPlayerId;
 }
 
 // Definir rota inicial:

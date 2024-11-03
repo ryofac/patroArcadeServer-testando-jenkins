@@ -8,7 +8,7 @@ const WEBSOCKET_PORT = 4999;
 // TODO: Analisar se é seguro nao usar a lib http.
 
 // Mapa de clientes conectados ao WebSocket (fliperamas)
-const clients = new Map();
+export const clients = new Map();
 
 // Inicializa o servidor WebSocket
 export const wss = new WebSocketServer({ port: WEBSOCKET_PORT });
@@ -18,7 +18,7 @@ wss.on("connection", (ws) => {
   // Gera um ID único para o cliente
   const clientId = uuidv4();
   // Adiciona o cliente ao mapa de clientes
-  clients.set(clientId, ws);
+  clients.set(clientId, { ws, players: [], id: clients.size });
 
   console.log("Cliente WebSocket conectado:", clientId);
   ws.send(
@@ -34,11 +34,6 @@ wss.on("connection", (ws) => {
 
   ws.on("close", () => {
     console.log("Cliente desconectado:", clientId);
-    if (getConnectedPlayerId() !== null) {
-      let connectedPlayerId = getConnectedPlayerId();
-      console.log(`Desconectando jogador ${connectedPlayerId}`);
-      disconnectPlayer(connectedPlayerId);
-    }
     // Remover o cliente do mapa de clientes
     clients.delete(clientId);
   });

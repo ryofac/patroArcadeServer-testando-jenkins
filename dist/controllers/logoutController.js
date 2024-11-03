@@ -1,20 +1,28 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = void 0;
 const app_1 = require("../app");
 const main_1 = require("../main");
 const userService_1 = require("../services/userService");
+const appError_1 = __importDefault(require("../exceptions/appError"));
 function logout(req, res) {
     const { username } = req.body;
     try {
-        (0, app_1.disconnectPlayer)(username);
+        const userId = (0, userService_1.getUserDataByUserName)(username).id;
+        (0, app_1.disconnectPlayer)(userId);
     }
     catch (error) {
-        console.error(`[LOGOUT] Erro ao desconectar jogador ${username}: ${error.message}`);
-        return res.status(400).json({
-            type: "logoutError",
-            content: error.message,
-        });
+        if (error instanceof appError_1.default) {
+            res.status(error.statusCode).json({
+                type: "logoutError",
+                content: error.message,
+            });
+            console.log(`[LogoutController] [logout] ${error.message}.`);
+        }
+        return;
     }
     // Logout bem-sucedido
     res.status(200).json({
