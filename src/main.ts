@@ -2,8 +2,8 @@ import app, { disconnectPlayer, getConnectedPlayerId } from "./app";
 import { WebSocketServer } from "ws";
 import { v4 as uuidv4 } from "uuid";
 
-const PORT = 3001;
-const WEBSOCKET_PORT = 4999;
+const PORT = process.env.PORT || 3000;
+const WEBSOCKET_PORT = process.env.WEBSOCKET_PORT || 4999;
 
 // TODO: Analisar se é seguro nao usar a lib http.
 
@@ -11,7 +11,7 @@ const WEBSOCKET_PORT = 4999;
 export const clients = new Map();
 
 // Inicializa o servidor WebSocket
-export const wss = new WebSocketServer({ port: WEBSOCKET_PORT });
+export const wss = new WebSocketServer({ port: Number(WEBSOCKET_PORT) });
 
 // Eventos de conexão do WebSocket
 wss.on("connection", (ws) => {
