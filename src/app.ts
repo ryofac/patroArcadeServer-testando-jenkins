@@ -24,8 +24,8 @@ const app: Application = express();
 // Middleware de limitação de requisições
 app.use(express.json());
 app.use(cors());
-app.set("trust proxy", 1); // Ajuste o número conforme o número de proxies entre o usuário e o servidor
-app.use(limiter);
+// app.set("trust proxy", 1); // Ajuste o número conforme o número de proxies entre o usuário e o servidor
+// app.use(limiter);
 
 // Configurar rotas
 app.use("/player", playerRoutes);
