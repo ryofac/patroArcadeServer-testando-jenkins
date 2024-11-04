@@ -11,7 +11,8 @@ import AppError from "../exceptions/appError";
 
 export function tryToLogin(req: Request, res: Response) {
   // Analisar credenciais recebidas
-  const { username, password, clientId } = req.body;
+  const { username, password } = req.body;
+  const clientId = parseInt(req.params.clientId);
   console.log(`[LOGIN ATTEMPT]: ID: ${clientId} - ${username} : ${password}.`);
 
   // Verificar se as credenciais são válidas

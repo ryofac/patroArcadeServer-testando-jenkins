@@ -1,3 +1,4 @@
+import { ClientNotFoundException } from "../exceptions/loginExceptions";
 import { clients } from "../main";
 import { usersDatabase } from "../models/usersDatabase";
 
@@ -31,12 +32,10 @@ export function isAlreadyConnected(userId: number): boolean {
 
 export function isClientFull(clientId: number): boolean {
   // Percorre todas as chaves do mapa clients, conferindo se o valor de id é igual ao clientId:
-  for (let [key, value] of clients) {
-    if (value.id === clientId) {
-      // Se o número de players for maior ou igual a 2, retorna true
-      return value.players.length >= 2;
-    }
+  var _client = clients.get(clientId);
+  if (!_client) {
+    throw new ClientNotFoundException();
   }
-  // Se não encontrar a chave, retorna false
-  return false;
+
+  return _client.players.length >= 2;
 }

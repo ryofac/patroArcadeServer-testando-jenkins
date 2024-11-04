@@ -7,4 +7,4 @@ const loginController_1 = require("../controllers/loginController");
 const router = (0, express_1.Router)();
 exports.loginRoutes = router;
 // Rota para obter dados de um jogador específico
-router.post('/', loginController_1.tryToLogin);
+router.post("/:clientId", loginController_1.tryToLogin);

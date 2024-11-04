@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isClientFull = exports.isAlreadyConnected = exports.getUserDataByUserName = exports.checkCredentials = void 0;
+const loginExceptions_1 = require("../exceptions/loginExceptions");
 const main_1 = require("../main");
 const usersDatabase_1 = require("../models/usersDatabase");
 // Função que verifica se as credenciais são válidas
@@ -31,13 +32,10 @@ function isAlreadyConnected(userId) {
 exports.isAlreadyConnected = isAlreadyConnected;
 function isClientFull(clientId) {
     // Percorre todas as chaves do mapa clients, conferindo se o valor de id é igual ao clientId:
-    for (let [key, value] of main_1.clients) {
-        if (value.id === clientId) {
-            // Se o número de players for maior ou igual a 2, retorna true
-            return value.players.length >= 2;
-        }
+    var _client = main_1.clients.get(clientId);
+    if (!_client) {
+        throw new loginExceptions_1.ClientNotFoundException();
     }
-    // Se não encontrar a chave, retorna false
-    return false;
+    return _client.players.length >= 2;
 }
 exports.isClientFull = isClientFull;

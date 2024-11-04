@@ -16,7 +16,8 @@ export const wss = new WebSocketServer({ port: WEBSOCKET_PORT });
 // Eventos de conexão do WebSocket
 wss.on("connection", (ws) => {
   // Gera um ID único para o cliente
-  const clientId = uuidv4();
+  //   const clientId = uuidv4();
+  const clientId = clients.size;
   // Adiciona o cliente ao mapa de clientes
   clients.set(clientId, { ws, players: [], id: clients.size });
 

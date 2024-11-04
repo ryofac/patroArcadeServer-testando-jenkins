@@ -5,7 +5,7 @@ import { tryToLogin } from "../controllers/loginController";
 const router = Router();
 
 // Rota para obter dados de um jogador específico
-router.post('/', tryToLogin);
+router.post("/:clientId", tryToLogin);
 
 // Exportar o router usando um alias
 export { router as loginRoutes };

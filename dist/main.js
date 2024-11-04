@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.wss = exports.clients = void 0;
 const app_1 = __importDefault(require("./app"));
 const ws_1 = require("ws");
-const uuid_1 = require("uuid");
 const PORT = 3001;
 const WEBSOCKET_PORT = 4999;
 // TODO: Analisar se é seguro nao usar a lib http.
@@ -17,7 +16,8 @@ exports.wss = new ws_1.WebSocketServer({ port: WEBSOCKET_PORT });
 // Eventos de conexão do WebSocket
 exports.wss.on("connection", (ws) => {
     // Gera um ID único para o cliente
-    const clientId = (0, uuid_1.v4)();
+    //   const clientId = uuidv4();
+    const clientId = exports.clients.size;
     // Adiciona o cliente ao mapa de clientes
     exports.clients.set(clientId, { ws, players: [], id: exports.clients.size });
     console.log("Cliente WebSocket conectado:", clientId);

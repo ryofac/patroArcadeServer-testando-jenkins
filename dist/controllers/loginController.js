@@ -11,7 +11,8 @@ const playerService_1 = require("../services/playerService");
 const appError_1 = __importDefault(require("../exceptions/appError"));
 function tryToLogin(req, res) {
     // Analisar credenciais recebidas
-    const { username, password, clientId } = req.body;
+    const { username, password } = req.body;
+    const clientId = parseInt(req.params.clientId);
     console.log(`[LOGIN ATTEMPT]: ID: ${clientId} - ${username} : ${password}.`);
     // Verificar se as credenciais são válidas
     if ((0, userService_1.checkCredentials)(username, password)) {
