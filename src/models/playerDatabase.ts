@@ -1,3 +1,5 @@
+import { SaveData } from "./saveData";
+
 export interface Player {
   name: string;
   rankLevel: number;
@@ -10,6 +12,7 @@ export interface Player {
   avatarIndex: number;
   colorIndex: number;
   userId: number;
+  saveDatas: Array<SaveData>;
 }
 
 export const playerDatabase: Player[] = [
@@ -25,6 +28,7 @@ export const playerDatabase: Player[] = [
     avatarIndex: 1,
     colorIndex: 1,
     userId: 2,
+    saveDatas: [],
   },
   {
     name: "Patrocinio",
@@ -38,5 +42,6 @@ export const playerDatabase: Player[] = [
     avatarIndex: 1,
     colorIndex: 1,
     userId: 1,
+    saveDatas: [],
   },
 ];

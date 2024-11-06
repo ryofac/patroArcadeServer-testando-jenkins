@@ -33,10 +33,12 @@ function generateNewPlayer(playerName, userId) {
         avatarIndex: 1,
         colorIndex: 1,
         userId: userId,
+        saveDatas: [],
     };
     return _data;
 }
 exports.generateNewPlayer = generateNewPlayer;
+// vou fazer silencio pq o rogerio eh chato com a gente
 // Adiciona um jogador ao banco de dados
 function addPlayerToDatabase(playerData) {
     playerDatabase_1.playerDatabase.push(playerData);

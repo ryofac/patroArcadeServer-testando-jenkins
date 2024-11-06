@@ -7,7 +7,6 @@ exports.getConnectedPlayerId = exports.disconnectPlayer = exports.connectPlayer 
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const playerRoutes_1 = require("./routes/playerRoutes");
-const rateLimit_1 = require("./middleware/rateLimit");
 const leaderboardRoutes_1 = require("./routes/leaderboardRoutes");
 const scoreRoutes_1 = require("./routes/scoreRoutes");
 const loginRoutes_1 = require("./routes/loginRoutes");
@@ -22,7 +21,8 @@ const app = (0, express_1.default)();
 // Middleware de limitação de requisições
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.use(rateLimit_1.limiter);
+// app.set("trust proxy", 1); // Ajuste o número conforme o número de proxies entre o usuário e o servidor
+// app.use(limiter);
 // Configurar rotas
 app.use("/player", playerRoutes_1.playerRoutes);
 app.use("/leaderboard", leaderboardRoutes_1.leaderboardRoutes);

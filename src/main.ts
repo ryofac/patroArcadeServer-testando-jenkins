@@ -1,17 +1,18 @@
 import app, { disconnectPlayer, getConnectedPlayerId } from "./app";
 import { WebSocketServer } from "ws";
 import { v4 as uuidv4 } from "uuid";
+import http from "http";
 
-const PORT = process.env.PORT || 3000;
-const WEBSOCKET_PORT = process.env.WEBSOCKET_PORT || 4999;
-
-// TODO: Analisar se é seguro nao usar a lib http.
+const PORT = process.env.PORT || 3001;
 
 // Mapa de clientes conectados ao WebSocket (fliperamas)
 export const clients = new Map();
 
+// Cria o servidor http
+const server = http.createServer(app);
+
 // Inicializa o servidor WebSocket
-export const wss = new WebSocketServer({ port: Number(WEBSOCKET_PORT) });
+export const wss = new WebSocketServer({ server });
 
 // Eventos de conexão do WebSocket
 wss.on("connection", (ws) => {
@@ -40,9 +41,7 @@ wss.on("connection", (ws) => {
   });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.clear();
   console.log(`PatroTCC rodando: ${PORT}`);
-  // TODO: Verificar onde informar a execuçção do server ws.
-  console.log(`WebSocket rodando: ${WEBSOCKET_PORT}`);
 });

@@ -14,6 +14,7 @@ exports.playerDatabase = [
         avatarIndex: 1,
         colorIndex: 1,
         userId: 2,
+        saveDatas: [],
     },
     {
         name: "Patrocinio",
@@ -27,5 +28,6 @@ exports.playerDatabase = [
         avatarIndex: 1,
         colorIndex: 1,
         userId: 1,
+        saveDatas: [],
     },
 ];

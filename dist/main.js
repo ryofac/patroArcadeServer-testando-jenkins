@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.wss = exports.clients = void 0;
 const app_1 = __importDefault(require("./app"));
 const ws_1 = require("ws");
-const PORT = 3001;
-const WEBSOCKET_PORT = 4999;
-// TODO: Analisar se é seguro nao usar a lib http.
+const http_1 = __importDefault(require("http"));
+const PORT = process.env.PORT || 3001;
 // Mapa de clientes conectados ao WebSocket (fliperamas)
 exports.clients = new Map();
+// Cria o servidor http
+const server = http_1.default.createServer(app_1.default);
 // Inicializa o servidor WebSocket
-exports.wss = new ws_1.WebSocketServer({ port: WEBSOCKET_PORT });
+exports.wss = new ws_1.WebSocketServer({ server });
 // Eventos de conexão do WebSocket
 exports.wss.on("connection", (ws) => {
     // Gera um ID único para o cliente
@@ -34,9 +35,7 @@ exports.wss.on("connection", (ws) => {
         exports.clients.delete(clientId);
     });
 });
-app_1.default.listen(PORT, () => {
+server.listen(PORT, () => {
     console.clear();
     console.log(`PatroTCC rodando: ${PORT}`);
-    // TODO: Verificar onde informar a execuçção do server ws.
-    console.log(`WebSocket rodando: ${WEBSOCKET_PORT}`);
 });
