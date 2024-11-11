@@ -11,6 +11,7 @@ import { arcadeLoginRoutes } from "./routes/arcadeLoginRoutes";
 import { clients } from "./main";
 import { debugRoutes } from "./routes/debugRoutes";
 import { isAlreadyConnected, isClientFull } from "./services/userService";
+import bodyParser from "body-parser";
 import {
   AlreadyConnectedException,
   ClientFullException,
@@ -25,8 +26,7 @@ const app: Application = express();
 // Middleware de limitação de requisições
 app.use(express.json());
 app.use(cors());
-// app.set("trust proxy", 1); // Ajuste o número conforme o número de proxies entre o usuário e o servidor
-// app.use(limiter);
+app.use(bodyParser.json());
 
 // Configurar rotas
 app.use("/player", playerRoutes);

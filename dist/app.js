@@ -15,6 +15,7 @@ const arcadeLoginRoutes_1 = require("./routes/arcadeLoginRoutes");
 const main_1 = require("./main");
 const debugRoutes_1 = require("./routes/debugRoutes");
 const userService_1 = require("./services/userService");
+const body_parser_1 = __importDefault(require("body-parser"));
 const loginExceptions_1 = require("./exceptions/loginExceptions");
 const clientService_1 = require("./services/clientService");
 // Criar a instância do Express
@@ -22,8 +23,7 @@ const app = (0, express_1.default)();
 // Middleware de limitação de requisições
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-// app.set("trust proxy", 1); // Ajuste o número conforme o número de proxies entre o usuário e o servidor
-// app.use(limiter);
+app.use(body_parser_1.default.json());
 // Configurar rotas
 app.use("/player", playerRoutes_1.playerRoutes);
 app.use("/leaderboard", leaderboardRoutes_1.leaderboardRoutes);

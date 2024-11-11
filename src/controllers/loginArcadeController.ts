@@ -36,9 +36,8 @@ export function tryToLoginArcade(req: Request, res: Response) {
       });
 
       // Atualiza o identificador do fliperama.
-      const id = user.arcades[0];   // TODO: Tratamento para quando o usuário tiver mais de um fliperama. (arcades.length > 1)
+      const id = user.arcades[0]; // TODO: Tratamento para quando o usuário tiver mais de um fliperama. (arcades.length > 1)
       updateArcadeIdentifier(id, clientTempId);
-      
     } else {
       // Se as credenciais não forem válidas, retorna erro.
     }
@@ -49,4 +48,52 @@ export function tryToLoginArcade(req: Request, res: Response) {
       content: error.message,
     });
   }
+}
+
+export function generateLoginPage(req: Request, res: Response) {
+  const clientId = parseInt(req.params.clientId);
+  console.log(`Gerando página de login para o cliente ${clientId}.`);
+  res.send(`
+            <!DOCTYPE html>
+            <html>
+                    <head>
+                            <title>Login</title>
+                    </head>
+                    <body>
+                            <h2>Login</h2>
+                            <form id="loginForm" action="/login/${clientId}" method="post">
+                                    <label for="username">Username:</label><br>
+                                    <input type="text" id="username" name="username"><br>
+                                    <label for="password">Password:</label><br>
+                                    <input type="password" id="password" name="password"><br><br>
+                                    <input type="submit" value="Submit">
+                            </form>
+                            <script>
+                                    document.getElementById('loginForm').addEventListener('submit', function(event) {
+                                            event.preventDefault();
+                                            const username = document.getElementById('username').value;
+                                            const password = document.getElementById('password').value;
+                                            fetch('/login/${clientId}', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                            'Content-Type': 'application/json'
+                                                    },
+                                                    body: JSON.stringify({ username, password })
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                    if (data.type === 'loginSuccess') {
+                                                            console.log('Login successful!');
+                                                    } else {
+                                                            console.log('Login failed: ' + data.content);
+                                                    }
+                                            })
+                                            .catch(error => {
+                                                    console.error('Error:', error);
+                                            });
+                                    });
+                            </script>
+                    </body>
+            </html>
+    `);
 }
