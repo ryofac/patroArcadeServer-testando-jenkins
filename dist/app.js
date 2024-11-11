@@ -11,6 +11,7 @@ const leaderboardRoutes_1 = require("./routes/leaderboardRoutes");
 const scoreRoutes_1 = require("./routes/scoreRoutes");
 const loginRoutes_1 = require("./routes/loginRoutes");
 const logoutRoutes_1 = require("./routes/logoutRoutes");
+const arcadeLoginRoutes_1 = require("./routes/arcadeLoginRoutes");
 const main_1 = require("./main");
 const debugRoutes_1 = require("./routes/debugRoutes");
 const userService_1 = require("./services/userService");
@@ -28,6 +29,7 @@ app.use("/player", playerRoutes_1.playerRoutes);
 app.use("/leaderboard", leaderboardRoutes_1.leaderboardRoutes);
 app.use("/score", scoreRoutes_1.scoreRoutes);
 app.use("/login", loginRoutes_1.loginRoutes);
+app.use("/arcadeLogin", arcadeLoginRoutes_1.arcadeLoginRoutes);
 app.use("/logout", logoutRoutes_1.logoutRoutes);
 app.use("/debug", debugRoutes_1.debugRoutes);
 // TODO: Configurar sessões

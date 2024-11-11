@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ClientNotFoundException = exports.ClientFullException = exports.AlreadyConnectedException = exports.LoginException = void 0;
+exports.UserIsNotAdminException = exports.ClientNotFoundException = exports.ClientFullException = exports.AlreadyConnectedException = exports.LoginException = void 0;
 // exceptions/LoginException.js
 const appError_1 = __importDefault(require("./appError"));
 class LoginException extends appError_1.default {
@@ -36,3 +36,9 @@ class ClientNotFoundException extends LoginException {
     }
 }
 exports.ClientNotFoundException = ClientNotFoundException;
+class UserIsNotAdminException extends LoginException {
+    constructor() {
+        super("User is not an admin", 403);
+    }
+}
+exports.UserIsNotAdminException = UserIsNotAdminException;

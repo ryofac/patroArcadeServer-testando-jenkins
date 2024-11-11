@@ -7,6 +7,16 @@ exports.usersDatabase = [
         name: "Luis F Patrocinio",
         username: "patrocinio",
         email: "patrocinioluisf@gmail.com",
-        password: "123456"
-    }
+        password: "123456",
+        role: "admin",
+        arcades: [44],
+    },
+    {
+        id: 2,
+        name: "Joaquim",
+        username: "joaquim",
+        email: "joaquim@gmail.com",
+        password: "123456",
+        role: "player",
+    },
 ];

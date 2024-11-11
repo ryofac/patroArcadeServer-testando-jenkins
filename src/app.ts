@@ -7,6 +7,7 @@ import { leaderboardRoutes } from "./routes/leaderboardRoutes";
 import { scoreRoutes } from "./routes/scoreRoutes";
 import { loginRoutes } from "./routes/loginRoutes";
 import { logoutRoutes } from "./routes/logoutRoutes";
+import { arcadeLoginRoutes } from "./routes/arcadeLoginRoutes";
 import { clients } from "./main";
 import { debugRoutes } from "./routes/debugRoutes";
 import { isAlreadyConnected, isClientFull } from "./services/userService";
@@ -32,6 +33,7 @@ app.use("/player", playerRoutes);
 app.use("/leaderboard", leaderboardRoutes);
 app.use("/score", scoreRoutes);
 app.use("/login", loginRoutes);
+app.use("/arcadeLogin", arcadeLoginRoutes);
 app.use("/logout", logoutRoutes);
 app.use("/debug", debugRoutes);
 

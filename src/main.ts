@@ -14,24 +14,32 @@ const server = http.createServer(app);
 // Inicializa o servidor WebSocket
 export const wss = new WebSocketServer({ server });
 
+let qntClients = 0;
+
 // Eventos de conexão do WebSocket
 wss.on("connection", (ws) => {
-  // Gera um ID único para o cliente
-  //   const clientId = uuidv4();
-  const clientId = clients.size;
+  const clientId = qntClients;
+  qntClients += 1;
+
   // Adiciona o cliente ao mapa de clientes
-  clients.set(clientId, { ws, players: [], id: clients.size });
+  clients.set(clientId, { ws, players: [], id: -1 });
 
   console.log("Cliente WebSocket conectado:", clientId);
   ws.send(
     JSON.stringify({
-      type: "connected",
+      type: "saudacoes", // TODO: Dar utilidade para isso.
       content: { clientId },
     })
   );
 
   ws.on("message", (message) => {
     console.log("Mensagem recebida:", message);
+    const data: Map<string, any> = JSON.parse(message.toString()) as Map<
+      string,
+      any
+    >;
+
+    manageGameReceivedData(ws, data);
   });
 
   ws.on("close", () => {
@@ -45,3 +53,34 @@ server.listen(PORT, () => {
   console.clear();
   console.log(`PatroTCC rodando: ${PORT}`);
 });
+
+function manageGameReceivedData(ws: any, data: Map<string, any>) {
+  console.log("Entrou no manageGameReceivedData");
+  console.log(data);
+
+  const dataMap = new Map(Object.entries(data));
+  const type = dataMap.get("type");
+  const content = new Map(Object.entries(dataMap.get("content")));
+
+  switch (type) {
+    case "updateClientId":
+      const clientId = content.get("clientId");
+      const client = getThisClient(ws);
+      if (client !== -1) {
+        clients.get(client).id = clientId;
+      }
+      console.log("Cliente", client, "atualizado para", clientId);
+      break;
+    default:
+      console.log("Tipo de mensagem não reconhecido.");
+  }
+}
+
+function getThisClient(ws: any) {
+  for (const [key, value] of clients.entries()) {
+    if (value.ws === ws) {
+      return key;
+    }
+  }
+  return -1;
+}

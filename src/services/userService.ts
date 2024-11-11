@@ -1,6 +1,10 @@
-import { ClientNotFoundException } from "../exceptions/loginExceptions";
+import {
+  ClientFullException,
+  ClientNotFoundException,
+} from "../exceptions/loginExceptions";
 import { clients } from "../main";
 import { usersDatabase } from "../models/usersDatabase";
+import { getClientById } from "./clientService";
 
 // Função que verifica se as credenciais são válidas
 export function checkCredentials(username: string, password: string): boolean {
@@ -32,9 +36,9 @@ export function isAlreadyConnected(userId: number): boolean {
 
 export function isClientFull(clientId: number): boolean {
   // Percorre todas as chaves do mapa clients, conferindo se o valor de id é igual ao clientId:
-  var _client = clients.get(clientId);
+  var _client = getClientById(clientId);
   if (!_client) {
-    throw new ClientNotFoundException();
+    throw new ClientFullException();
   }
 
   return _client.players.length >= 2;

@@ -31,9 +31,16 @@ class ClientNotFoundException extends LoginException {
   }
 }
 
+class UserIsNotAdminException extends LoginException {
+  constructor() {
+    super("User is not an admin", 403);
+  }
+}
+
 export {
   LoginException,
   AlreadyConnectedException,
   ClientFullException,
   ClientNotFoundException,
+  UserIsNotAdminException,
 };

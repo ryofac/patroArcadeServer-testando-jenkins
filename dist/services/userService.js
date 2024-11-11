@@ -4,6 +4,7 @@ exports.isClientFull = exports.isAlreadyConnected = exports.getUserDataByUserNam
 const loginExceptions_1 = require("../exceptions/loginExceptions");
 const main_1 = require("../main");
 const usersDatabase_1 = require("../models/usersDatabase");
+const clientService_1 = require("./clientService");
 // Função que verifica se as credenciais são válidas
 function checkCredentials(username, password) {
     const user = usersDatabase_1.usersDatabase.find((u) => u.username === username && u.password === password);
@@ -32,9 +33,9 @@ function isAlreadyConnected(userId) {
 exports.isAlreadyConnected = isAlreadyConnected;
 function isClientFull(clientId) {
     // Percorre todas as chaves do mapa clients, conferindo se o valor de id é igual ao clientId:
-    var _client = main_1.clients.get(clientId);
+    var _client = (0, clientService_1.getClientById)(clientId);
     if (!_client) {
-        throw new loginExceptions_1.ClientNotFoundException();
+        throw new loginExceptions_1.ClientFullException();
     }
     return _client.players.length >= 2;
 }
