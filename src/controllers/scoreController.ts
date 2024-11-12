@@ -1,23 +1,32 @@
-import express, { Request, Response } from 'express';
-import { updatePlayerDefeatedEnemies, updatePlayerScore } from '../services/scoreService';
+import express, { Request, Response } from "express";
+import {
+  updatePlayerDefeatedEnemies,
+  updatePlayerScore,
+} from "../services/scoreService";
+import { getPlayerByName, getPlayerByUserId } from "../services/playerService";
 
 export function submitScore(req: Request, res: Response) {
-    console.log("Requisição de pontuação recebida.");
-    
-    const playerName = req.body.name;
-    const playerScore = req.body.score;
-    const playerEnemiesDestroyed = req.body.enemiesDestroyed;
+  console.log("Requisição de pontuação recebida.");
+  console.log(req.body);
 
-    // Atualizar info do player.
-    updatePlayerScore(playerName, playerScore);
-    updatePlayerDefeatedEnemies(playerName, playerEnemiesDestroyed);
-    
-    res.json(
-        {
-            type: "scoreReceived",
-            content: "Score received."
-        }
-    );
+  const playerId = req.body.content.userId;
+  const playerScore = req.body.content.score;
+  // const playerEnemiesDestroyed = req.body.enemiesDestroyed;
 
-    console.log(`Pontuação recebida de ${playerName}: ${playerScore}`);
+  // Atualizar info do player.
+  updatePlayerScore(playerId, playerScore);
+  // updatePlayerDefeatedEnemies(playerName, playerEnemiesDestroyed);
+
+  res
+    .json({
+      type: "scoreReceived",
+      content: "Score received.",
+    })
+    .status(200);
+
+  console.log(
+    `Pontuação recebida do Player ID: ${playerId} (${
+      getPlayerByUserId(playerId).name
+    }): ${playerScore}`
+  );
 }
