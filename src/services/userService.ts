@@ -3,7 +3,7 @@ import {
   ClientNotFoundException,
 } from "../exceptions/loginExceptions";
 import { clients } from "../main";
-import { usersDatabase } from "../models/usersDatabase";
+import { User, usersDatabase } from "../models/usersDatabase";
 import { getClientById } from "./clientService";
 
 // Função que verifica se as credenciais são válidas
@@ -14,7 +14,7 @@ export function checkCredentials(username: string, password: string): boolean {
   return !!user; // Retorna true se o usuário for encontrado, false caso contrário
 }
 
-export function getUserDataByUserName(username: string) {
+export function getUserDataByUserName(username: string): User {
   const user = usersDatabase.find((u) => u.username === username);
   if (!user) {
     throw new Error(`User with username ${username} not found`);
