@@ -4,26 +4,28 @@ import {
   getLeaderboardData,
   generateNewPlayer,
   addPlayerToDatabase,
+  getPlayerByUserId,
 } from "../services/playerService";
 
 // Obter dados de um jogador específico
 export const getPlayerData = (req: Request, res: Response) => {
-  const playerName = req.params.name;
-  const player = getPlayerByName(playerName);
+  const playerId = Number(req.params.playerUserId);
+  const player = getPlayerByUserId(playerId);
 
   if (player) {
-    console.log(`Fornecendo dados do jogador: ${playerName}`);
-    res.json({
+    console.log(`Fornecendo dados do jogador: ${player.name}`);
+    res.status(200).json({
       type: "playerData",
       content: player,
     });
-  } else {
-    console.log(`Jogador não encontrado: ${playerName}`);
-    res.status(404).json({
-      type: "playerData",
-      content: `Player ${playerName} not found`,
-    });
+    return;
   }
+
+  console.log(`Jogador não encontrado ID: ${playerId}`);
+  res.status(404).json({
+    type: "playerData",
+    content: `Player ID ${playerId} not found`,
+  });
 };
 
 // Obter leaderboard

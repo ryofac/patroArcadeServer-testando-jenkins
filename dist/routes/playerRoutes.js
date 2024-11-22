@@ -8,4 +8,4 @@ const router = (0, express_1.Router)();
 exports.playerRoutes = router;
 // Rota para obter dados de um jogador específico
 router.post('/create', playerController_1.createNewPlayer);
-router.get('/:name', playerController_1.getPlayerData);
+router.get('/:playerUserId', playerController_1.getPlayerData);

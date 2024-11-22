@@ -4,22 +4,21 @@ exports.createNewPlayer = exports.getLeaderBoard = exports.getPlayerData = void 
 const playerService_1 = require("../services/playerService");
 // Obter dados de um jogador específico
 const getPlayerData = (req, res) => {
-    const playerName = req.params.name;
-    const player = (0, playerService_1.getPlayerByName)(playerName);
+    const playerId = Number(req.params.playerUserId);
+    const player = (0, playerService_1.getPlayerByUserId)(playerId);
     if (player) {
-        console.log(`Fornecendo dados do jogador: ${playerName}`);
-        res.json({
+        console.log(`Fornecendo dados do jogador: ${player.name}`);
+        res.status(200).json({
             type: "playerData",
             content: player,
         });
+        return;
     }
-    else {
-        console.log(`Jogador não encontrado: ${playerName}`);
-        res.status(404).json({
-            type: "playerData",
-            content: `Player ${playerName} not found`,
-        });
-    }
+    console.log(`Jogador não encontrado ID: ${playerId}`);
+    res.status(404).json({
+        type: "playerData",
+        content: `Player ID ${playerId} not found`,
+    });
 };
 exports.getPlayerData = getPlayerData;
 // Obter leaderboard

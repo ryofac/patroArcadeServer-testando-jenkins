@@ -6,7 +6,7 @@ const router = Router();
 
 // Rota para obter dados de um jogador específico
 router.post('/create', createNewPlayer);
-router.get('/:name', getPlayerData);
+router.get('/:playerUserId', getPlayerData);
 
 // Exportar o router usando um alias
 export { router as playerRoutes };
