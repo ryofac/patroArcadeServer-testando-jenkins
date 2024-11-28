@@ -4,19 +4,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getConnectedPlayerId = exports.disconnectPlayer = exports.connectPlayer = void 0;
+// Importações Principais
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
+// Importar exceções:
+const loginExceptions_1 = require("./exceptions/loginExceptions");
+// Importar rotas:
 const playerRoutes_1 = require("./routes/playerRoutes");
 const leaderboardRoutes_1 = require("./routes/leaderboardRoutes");
 const scoreRoutes_1 = require("./routes/scoreRoutes");
 const loginRoutes_1 = require("./routes/loginRoutes");
 const logoutRoutes_1 = require("./routes/logoutRoutes");
 const arcadeLoginRoutes_1 = require("./routes/arcadeLoginRoutes");
-const main_1 = require("./main");
+const newsRoutes_1 = require("./routes/newsRoutes");
 const debugRoutes_1 = require("./routes/debugRoutes");
+// Importações que não deviam estar aqui:
+const main_1 = require("./main");
 const userService_1 = require("./services/userService");
-const body_parser_1 = __importDefault(require("body-parser"));
-const loginExceptions_1 = require("./exceptions/loginExceptions");
 const clientService_1 = require("./services/clientService");
 // Criar a instância do Express
 const app = (0, express_1.default)();
@@ -31,6 +36,7 @@ app.use("/score", scoreRoutes_1.scoreRoutes);
 app.use("/login", loginRoutes_1.loginRoutes);
 app.use("/arcadeLogin", arcadeLoginRoutes_1.arcadeLoginRoutes);
 app.use("/logout", logoutRoutes_1.logoutRoutes);
+app.use("/latestNews", newsRoutes_1.newsRoutes);
 app.use("/debug", debugRoutes_1.debugRoutes);
 // TODO: Configurar sessões
 // Função para conectar o jogador num fliperama específico

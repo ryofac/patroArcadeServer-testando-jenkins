@@ -1,23 +1,28 @@
+// Importações Principais
 import express, { Application } from "express";
-import session from "express-session";
 import cors from "cors";
+import bodyParser from "body-parser";
+
+// Importar exceções:
+import {
+  AlreadyConnectedException,
+  ClientFullException,
+  ClientNotFoundException,
+} from "./exceptions/loginExceptions";
+
+// Importar rotas:
 import { playerRoutes } from "./routes/playerRoutes";
-import { limiter } from "./middleware/rateLimit";
 import { leaderboardRoutes } from "./routes/leaderboardRoutes";
 import { scoreRoutes } from "./routes/scoreRoutes";
 import { loginRoutes } from "./routes/loginRoutes";
 import { logoutRoutes } from "./routes/logoutRoutes";
 import { arcadeLoginRoutes } from "./routes/arcadeLoginRoutes";
-import { clients } from "./main";
+import { newsRoutes } from "./routes/newsRoutes";
 import { debugRoutes } from "./routes/debugRoutes";
+
+// Importações que não deviam estar aqui:
+import { clients } from "./main";
 import { isAlreadyConnected, isClientFull } from "./services/userService";
-import bodyParser from "body-parser";
-import {
-  AlreadyConnectedException,
-  ClientFullException,
-  ClientNotFoundException,
-  LoginException,
-} from "./exceptions/loginExceptions";
 import { clientExists } from "./services/clientService";
 
 // Criar a instância do Express
@@ -35,6 +40,8 @@ app.use("/score", scoreRoutes);
 app.use("/login", loginRoutes);
 app.use("/arcadeLogin", arcadeLoginRoutes);
 app.use("/logout", logoutRoutes);
+app.use("/latestNews", newsRoutes);
+
 app.use("/debug", debugRoutes);
 
 // TODO: Configurar sessões

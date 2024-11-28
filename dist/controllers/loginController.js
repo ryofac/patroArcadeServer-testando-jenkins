@@ -6,71 +6,59 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tryToLogin = void 0;
 const userService_1 = require("../services/userService");
 const app_1 = require("../app");
-const main_1 = require("../main");
 const playerService_1 = require("../services/playerService");
 const appError_1 = __importDefault(require("../exceptions/appError"));
 const multer_1 = __importDefault(require("multer"));
+const clientService_1 = require("../services/clientService");
 const upload = (0, multer_1.default)();
 exports.tryToLogin = [
     upload.none(),
     (req, res) => {
         // Analisar credenciais recebidas
-        // const { username, password } = req.body;
         const username = req.body.username;
         const password = req.body.password;
         const clientId = parseInt(req.params.clientId);
-        console.log(`[LOGIN ATTEMPT]: ID: ${clientId} - ${username} : ${password}.`);
-        console.log("Printando body:");
-        console.log(req.body);
-        // Verificar se as credenciais são válidas
-        if ((0, userService_1.checkCredentials)(username, password)) {
-            try {
-                const _userId = (0, userService_1.getUserDataByUserName)(username).id;
-                // Verifica se já existe um player conectado.
-                (0, app_1.connectPlayer)(_userId, clientId);
-            }
-            catch (error) {
-                if (error instanceof appError_1.default) {
-                    res.status(error.statusCode).json({
-                        type: "loginFailed",
-                        content: error.message,
-                    });
-                }
-                console.log(`[LoginController] [tryToLogin] ${error.message}.`);
-                return;
-            }
-            // Tudo dando certo, retorna o player.
-            res.status(200);
-            const playerData = (0, playerService_1.getPlayerByUserId)((0, userService_1.getUserDataByUserName)(username).id);
-            res.json({
-                type: "loginSuccess",
-                content: playerData,
-            });
-            // Enviar mensagem para o Client Websocket desejado:
-            main_1.clients.forEach((client) => {
-                if (client.id === clientId) {
-                    client.ws.send(JSON.stringify({
-                        type: "playerJoined",
-                        content: playerData,
-                    }));
-                }
-            });
-            // Atualizar array de players do cliente.
-            main_1.clients.forEach((client) => {
-                if (client.id === clientId) {
-                    client.players.push(playerData.userId);
-                }
-            });
-            console.log("[LoginController] [tryToLogin] Login bem-sucedido.");
-        }
-        else {
-            // Se as credenciais não forem válidas, retorna um erro.
-            res.status(401);
-            res.json({
+        console.log(`[LOGIN ATTEMPT]: ID: ${clientId} - ${username}.`);
+        // Verificar se os dados de login são válidos
+        if (!username || !password || isNaN(clientId)) {
+            return res.status(400).json({
                 type: "loginFailed",
-                content: "Credenciais inválidas.",
+                content: "Dados de login inválidos.",
             });
-            console.log("Login falhou.");
+        }
+        // Tentar realizar o login
+        try {
+            if ((0, userService_1.checkCredentials)(username, password)) {
+                const userData = (0, userService_1.getUserDataByUserName)(username);
+                const userId = userData.id;
+                (0, app_1.connectPlayer)(userId, clientId);
+                const playerData = (0, playerService_1.getPlayerByUserId)(userId);
+                res.status(200).json({
+                    type: "loginSuccess",
+                    content: playerData,
+                });
+                (0, clientService_1.sendWebSocketMessage)(clientId, "playerJoined", playerData);
+                (0, clientService_1.addPlayerToClient)(clientId, userId);
+                console.log(`[LoginController] [tryToLogin] Player ${username} conectado com sucesso no cliente ${clientId}.`);
+            }
+            else {
+                res.status(401).json({
+                    type: "loginFailed",
+                    content: "Credenciais inválidas.",
+                });
+                console.log(`[LoginController] [tryToLogin] Falha no login para o jogador ${username}.`);
+            }
+        }
+        catch (error) {
+            // Tratamento de Erros
+            console.error(`[LoginController] [tryToLogin] ERROR: ${error.message}`);
+            if (error instanceof appError_1.default) {
+                console.error(`[LoginController] [tryToLogin] ${error.message}`);
+                res.status(error.statusCode).json({
+                    type: "loginFailed",
+                    content: error.message,
+                });
+            }
         }
     },
 ];

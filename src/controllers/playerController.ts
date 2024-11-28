@@ -28,7 +28,7 @@ export const getPlayerData = (req: Request, res: Response) => {
   });
 };
 
-// Obter leaderboard
+/** Retrieves the leaderboard data and sends it as a JSON response.*/
 export const getLeaderBoard = (req: Request, res: Response) => {
   const leaderboard = getLeaderboardData();
   res.json({

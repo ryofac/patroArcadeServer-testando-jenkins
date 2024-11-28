@@ -27,7 +27,7 @@ exports.wss.on("connection", (ws) => {
         content: { clientId },
     }));
     ws.on("message", (message) => {
-        console.log("Mensagem recebida:", message);
+        console.log("Mensagem recebida do cliente:", clientId);
         const data = JSON.parse(message.toString());
         manageGameReceivedData(ws, data);
     });
@@ -42,7 +42,6 @@ server.listen(PORT, () => {
     console.log(`PatroTCC rodando: ${PORT}`);
 });
 function manageGameReceivedData(ws, data) {
-    console.log("Entrou no manageGameReceivedData");
     console.log(data);
     const dataMap = new Map(Object.entries(data));
     const type = dataMap.get("type");
@@ -54,7 +53,7 @@ function manageGameReceivedData(ws, data) {
             if (client !== -1) {
                 exports.clients.get(client).id = clientId;
             }
-            console.log("Cliente", client, "atualizado para", clientId);
+            console.log(`[UPDATE CLIENT ID]: ${client} atualizado para ${clientId}.`);
             break;
         default:
             console.log("Tipo de mensagem não reconhecido.");

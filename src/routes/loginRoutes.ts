@@ -13,3 +13,4 @@ router.get("/:clientId", generateLoginPage);
 
 // Exportar o router usando um alias
 export { router as loginRoutes };
+    

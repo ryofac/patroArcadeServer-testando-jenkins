@@ -1,12 +1,11 @@
 import { clients } from "../main";
+import { WebSocket } from "ws";
 
 export function clientExists(clientId: number): boolean {
-  console.log("Checando se existe o clientId: ", clientId);
   let _exists = false;
   for (const client of clients.values()) {
     if (client.id == clientId) {
       _exists = true;
-      console.log("Cliente encontrado: ", client.id);
       return true;
     }
   }
@@ -41,4 +40,3 @@ export function addPlayerToClient(clientId: number, userId: number) {
     client.players.push(userId);
   }
 }
-

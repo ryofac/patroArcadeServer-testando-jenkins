@@ -33,7 +33,7 @@ wss.on("connection", (ws) => {
   );
 
   ws.on("message", (message) => {
-    console.log("Mensagem recebida:", message);
+    console.log("Mensagem recebida do cliente:", clientId);
     const data: Map<string, any> = JSON.parse(message.toString()) as Map<
       string,
       any
@@ -55,7 +55,6 @@ server.listen(PORT, () => {
 });
 
 function manageGameReceivedData(ws: any, data: Map<string, any>) {
-  console.log("Entrou no manageGameReceivedData");
   console.log(data);
 
   const dataMap = new Map(Object.entries(data));
@@ -69,7 +68,7 @@ function manageGameReceivedData(ws: any, data: Map<string, any>) {
       if (client !== -1) {
         clients.get(client).id = clientId;
       }
-      console.log("Cliente", client, "atualizado para", clientId);
+      console.log(`[UPDATE CLIENT ID]: ${client} atualizado para ${clientId}.`);
       break;
     default:
       console.log("Tipo de mensagem não reconhecido.");

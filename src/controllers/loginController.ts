@@ -24,6 +24,7 @@ export const tryToLogin = [
 
     console.log(`[LOGIN ATTEMPT]: ID: ${clientId} - ${username}.`);
 
+    // Verificar se os dados de login são válidos
     if (!username || !password || isNaN(clientId)) {
       return res.status(400).json({
         type: "loginFailed",
@@ -31,6 +32,7 @@ export const tryToLogin = [
       });
     }
 
+    // Tentar realizar o login
     try {
       if (checkCredentials(username, password)) {
         const userData = getUserDataByUserName(username);
@@ -56,6 +58,8 @@ export const tryToLogin = [
         );
       }
     } catch (error: any) {
+      // Tratamento de Erros
+      console.error(`[LoginController] [tryToLogin] ERROR: ${error.message}`);
       if (error instanceof AppError) {
         console.error(`[LoginController] [tryToLogin] ${error.message}`);
         res.status(error.statusCode).json({
