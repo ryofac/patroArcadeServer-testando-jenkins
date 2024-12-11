@@ -3,19 +3,29 @@ export interface GameInfo {
   name: string;
   description: string;
   genre: string;
-  platform: string;
-  developer: string;
   tags: string[];
 }
 
-const kingsAndPigs: GameInfo = {
-  id: 1,
-  name: "Kings and Pigs",
-  description: "Primeiro jogo de testes",
-  genre: "Ação",
-  platform: "PatroArcade",
-  developer: "PatroGames",
-  tags: ["Action", "Two-Players", "Pigs"],
-};
-
-export const gameDatabase: GameInfo[] = [kingsAndPigs];
+export const gameDatabase: GameInfo[] = [
+  {
+    id: 1,
+    name: "PatroAsteroids",
+    description: "A thrilling space shooter game where you destroy asteroids.",
+    genre: "Arcade",
+    tags: ["space", "shooter", "arcade"],
+  },
+  {
+    id: 2,
+    name: "PatroArcade",
+    description: "A platform with retro games for you to enjoy.",
+    genre: "Arcade",
+    tags: ["retro", "arcade"],
+  },
+  {
+    id: 3,
+    name: "PatroTetris",
+    description: "A classic puzzle game that challenges your skills.",
+    genre: "Puzzle",
+    tags: ["puzzle", "classic"],
+  },
+];
