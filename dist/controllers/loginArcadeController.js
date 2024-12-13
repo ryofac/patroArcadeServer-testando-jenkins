@@ -47,6 +47,8 @@ exports.tryToLoginArcade = tryToLoginArcade;
 function generateLoginPage(req, res) {
     const clientId = parseInt(req.params.clientId);
     console.log(`Gerando página de login para o cliente ${clientId}.`);
+    res.send("Serviço descontinuado.");
+    return;
     res.send(`
             <!DOCTYPE html>
             <html>

@@ -24,7 +24,7 @@ import { debugRoutes } from "./routes/debugRoutes";
 import { clients } from "./main";
 import { isAlreadyConnected, isClientFull } from "./services/userService";
 import { clientExists } from "./services/clientService";
-import { gamesRoutes } from "./routes/gamesRoutes";
+import { gameRoutes } from "./routes/gameRoutes";
 
 // Criar a instância do Express
 const app: Application = express();
@@ -42,7 +42,7 @@ app.use("/login", loginRoutes);
 app.use("/arcadeLogin", arcadeLoginRoutes);
 app.use("/logout", logoutRoutes);
 app.use("/latestNews", newsRoutes);
-app.use("/games", gamesRoutes);
+app.use("/game", gameRoutes);
 
 app.use("/debug", debugRoutes);
 

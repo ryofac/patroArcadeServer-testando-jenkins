@@ -16,13 +16,6 @@ export const gameDatabase: GameInfo[] = [
   },
   {
     id: 2,
-    title: "PatroArcade",
-    description: "A platform with retro games for you to enjoy.",
-    genre: "Arcade",
-    tags: ["retro", "arcade"],
-  },
-  {
-    id: 3,
     title: "PatroTetris",
     description: "A classic puzzle game that challenges your skills.",
     genre: "Puzzle",

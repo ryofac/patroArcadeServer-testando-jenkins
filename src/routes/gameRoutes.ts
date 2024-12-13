@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { getLeaderBoard } from "../controllers/playerController";
-import { getGameDatabyGameId, getGamesData } from "../controllers/gamesController";
+import {
+  getGameDatabyGameId,
+  getGamesData,
+} from "../controllers/gamesController";
 
 // Criar uma instância do Router
 const router = Router();
@@ -10,4 +13,4 @@ router.get("/", getGamesData);
 router.get("/:gameId", getGameDatabyGameId);
 
 // Exportar o router usando um alias
-export { router as gamesRoutes };
+export { router as gameRoutes };

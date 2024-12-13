@@ -8,6 +8,7 @@ export function getGamesData(req: Request, res: Response) {
 
 export function getGameDatabyGameId(req: Request, res: Response) {
   const gameId = req.params.gameId;
+  console.log("Obtendo game: ", gameId);
   const game = gameDatabase.find((game) => game.id === Number(gameId));
 
   if (game) {
