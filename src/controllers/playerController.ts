@@ -9,6 +9,7 @@ import {
 
 // Obter dados de um jogador específico
 export const getPlayerData = (req: Request, res: Response) => {
+  console.log("getPlayerData acionado");
   const playerId = Number(req.params.playerUserId);
   const player = getPlayerByUserId(playerId);
 

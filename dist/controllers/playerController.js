@@ -4,6 +4,7 @@ exports.createNewPlayer = exports.getLeaderBoard = exports.getPlayerData = void 
 const playerService_1 = require("../services/playerService");
 // Obter dados de um jogador específico
 const getPlayerData = (req, res) => {
+    console.log("getPlayerData acionado");
     const playerId = Number(req.params.playerUserId);
     const player = (0, playerService_1.getPlayerByUserId)(playerId);
     if (player) {

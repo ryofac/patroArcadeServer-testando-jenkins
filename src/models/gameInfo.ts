@@ -4,6 +4,7 @@ export interface GameInfo {
   description: string;
   genre: string;
   tags: string[];
+  dataLabels: {};
 }
 
 export const gameDatabase: GameInfo[] = [
@@ -13,12 +14,26 @@ export const gameDatabase: GameInfo[] = [
     description: "A thrilling space shooter game where you destroy asteroids.",
     genre: "Arcade",
     tags: ["space", "shooter", "arcade"],
+    dataLabels: {
+      highestScore: "Pontuação Máxima",
+      totalScore: "Pontuação Total",
+      asteroidsDestroyed: "Asteroides Destruidos",
+      coinsCollected: "Moedas Coletadas",
+    },
   },
   {
     id: 2,
-    title: "PatroTetris",
-    description: "A classic puzzle game that challenges your skills.",
-    genre: "Puzzle",
-    tags: ["puzzle", "classic"],
+    title: "PatroWarriors",
+    description:
+      "An action-packed game where you defeat enemies and reach new levels.",
+    genre: "Action",
+    tags: ["action", "adventure", "warrior"],
+    dataLabels: {
+      highestScore: "Pontuação Máxima",
+      totalScore: "Pontuação Total",
+      levelsCompleted: "Níveis Completados",
+      enemiesDefeated: "Inimigos Derrotados",
+      coinsCollected: "Moedas Coletadas",
+    },
   },
 ];
