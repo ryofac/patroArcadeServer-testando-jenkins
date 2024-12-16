@@ -1,11 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createNewPlayer = exports.getLeaderBoard = exports.getPlayerData = void 0;
+exports.getPlayerAllSaves = exports.createNewPlayer = exports.getLeaderBoard = exports.getPlayerData = void 0;
 const playerService_1 = require("../services/playerService");
+const appError_1 = __importDefault(require("../exceptions/appError"));
 // Obter dados de um jogador específico
 const getPlayerData = (req, res) => {
     console.log("getPlayerData acionado");
-    const playerId = Number(req.params.playerUserId);
+    const playerId = Number(req.params.playerId);
     const player = (0, playerService_1.getPlayerByUserId)(playerId);
     if (player) {
         console.log(`Fornecendo dados do jogador: ${player.name}`);
@@ -58,3 +62,23 @@ const createNewPlayer = (req, res) => {
     }
 };
 exports.createNewPlayer = createNewPlayer;
+// Obter todos os saves de um jogador
+const getPlayerAllSaves = (req, res) => {
+    console.log("getPlayerAllSaves acionado");
+    const playerId = Number(req.params.playerId);
+    try {
+        const saves = (0, playerService_1.obtainPlayerSaves)(playerId);
+        console.log(`Fornecendo dados de save para o jogador ID: ${playerId}`);
+        return res.status(200).json({ type: "playerSaves", content: saves });
+    }
+    catch (err) {
+        console.error("Erro ao obter dados de save: ", err.message);
+        if (err instanceof appError_1.default) {
+            return res.status(err.statusCode).json({
+                type: "playerSavesFailed",
+                content: err.message,
+            });
+        }
+    }
+};
+exports.getPlayerAllSaves = getPlayerAllSaves;

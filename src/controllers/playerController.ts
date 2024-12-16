@@ -5,12 +5,14 @@ import {
   generateNewPlayer,
   addPlayerToDatabase,
   getPlayerByUserId,
+  obtainPlayerSaves,
 } from "../services/playerService";
+import AppError from "../exceptions/appError";
 
 // Obter dados de um jogador específico
 export const getPlayerData = (req: Request, res: Response) => {
   console.log("getPlayerData acionado");
-  const playerId = Number(req.params.playerUserId);
+  const playerId = Number(req.params.playerId);
   const player = getPlayerByUserId(playerId);
 
   if (player) {
@@ -64,5 +66,25 @@ export const createNewPlayer = (req: Request, res: Response) => {
       type: "newPlayerData",
       content: newPlayer,
     });
+  }
+};
+
+// Obter todos os saves de um jogador
+export const getPlayerAllSaves = (req: Request, res: Response) => {
+  console.log("getPlayerAllSaves acionado");
+  const playerId = Number(req.params.playerId);
+
+  try {
+    const saves = obtainPlayerSaves(playerId);
+    console.log(`Fornecendo dados de save para o jogador ID: ${playerId}`);
+    return res.status(200).json({ type: "playerSaves", content: saves });
+  } catch (err) {
+    console.error("Erro ao obter dados de save: ", (err as Error).message);
+    if (err instanceof AppError) {
+      return res.status(err.statusCode).json({
+        type: "playerSavesFailed",
+        content: err.message,
+      });
+    }
   }
 };

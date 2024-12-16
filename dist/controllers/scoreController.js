@@ -11,7 +11,6 @@ function submitScore(req, res) {
     // const playerEnemiesDestroyed = req.body.enemiesDestroyed;
     // Atualizar info do player.
     (0, scoreService_1.updatePlayerScore)(playerId, playerScore);
-    // updatePlayerDefeatedEnemies(playerName, playerEnemiesDestroyed);
     res
         .json({
         type: "scoreReceived",

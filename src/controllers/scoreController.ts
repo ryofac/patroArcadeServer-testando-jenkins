@@ -1,8 +1,5 @@
 import express, { Request, Response } from "express";
-import {
-  updatePlayerDefeatedEnemies,
-  updatePlayerScore,
-} from "../services/scoreService";
+import { updatePlayerScore } from "../services/scoreService";
 import { getPlayerByName, getPlayerByUserId } from "../services/playerService";
 
 export function submitScore(req: Request, res: Response) {
@@ -15,7 +12,6 @@ export function submitScore(req: Request, res: Response) {
 
   // Atualizar info do player.
   updatePlayerScore(playerId, playerScore);
-  // updatePlayerDefeatedEnemies(playerName, playerEnemiesDestroyed);
 
   res
     .json({

@@ -11,29 +11,17 @@ export function getPlayerDataById(userId: number): Player | undefined {
 }
 
 // Função para atualizar a pontuação de um jogador
-export function updatePlayerScore(playerUserId: number, score: number) {
-  const _player = getPlayerDataById(playerUserId);
+export function updatePlayerScore(playerId: number, score: number) {
+  const _player = getPlayerDataById(playerId);
   if (!_player) {
-    console.log(`Jogador com ID ${playerUserId} não encontrado!`);
+    console.log(`Jogador com ID ${playerId} não encontrado!`);
     return;
   }
   console.log(
-    `Atualizando pontuação do jogador com ID: ${playerUserId} --- ${_player.name}`
+    `Atualizando pontuação do jogador com ID: ${playerId} --- ${_player.name}`
   );
   if (_player) {
     _player.totalScore += score;
-    _player.highestScore = Math.max(_player.highestScore, score);
     console.log("Pontuação atualizada!");
-  }
-}
-
-// Função para atualizar os inimigos destruídos por um jogador
-export function updatePlayerDefeatedEnemies(
-  playerName: string,
-  enemiesDestroyed: number
-) {
-  const _player = getPlayerDataByName(playerName);
-  if (_player) {
-    _player.enemiesDestroyed += enemiesDestroyed;
   }
 }

@@ -7,5 +7,6 @@ const playerController_1 = require("../controllers/playerController");
 const router = (0, express_1.Router)();
 exports.playerRoutes = router;
 // Rota para obter dados de um jogador específico
-router.post('/create', playerController_1.createNewPlayer);
-router.get('/:playerUserId', playerController_1.getPlayerData);
+router.post("/create", playerController_1.createNewPlayer);
+router.get("/:playerId", playerController_1.getPlayerData);
+router.get("/:playerId/saves", playerController_1.getPlayerAllSaves);
