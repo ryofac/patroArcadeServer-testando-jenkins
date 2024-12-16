@@ -23,6 +23,7 @@ pipeline {
                     sh 'chmod +x ./scripts/deploy.sh'
                     sh './scripts/deploy.sh'
                 }
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'server.log'
             }
         }
     }
