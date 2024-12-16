@@ -3,3 +3,5 @@
 3. Enviar infos do jogador para o servidor
 
 4. Verificar se aquele usuário está logado em alguma maquina.
+
+5. Sei lá aa
