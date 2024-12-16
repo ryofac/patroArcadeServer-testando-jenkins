@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        nodejs 'nodelatest' 
+    }
     stages {
         stage('Clone Repository') {
             steps {
@@ -8,14 +11,18 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'chmod +x ./scripts/build.sh'
-                sh './scripts/build.sh'
+                script {
+                    sh 'chmod +x ./scripts/build.sh'
+                    sh './scripts/build.sh'
+                }
             }
         }
         stage('Deploy') {
             steps {
-                sh 'chmod +x ./scripts/deploy.sh'
-                sh './scripts/deploy.sh'
+                script {
+                    sh 'chmod +x ./scripts/deploy.sh'
+                    sh './scripts/deploy.sh'
+                }
             }
         }
     }
