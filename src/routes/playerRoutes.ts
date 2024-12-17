@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createNewPlayer,
+  getAllPlayersData,
   getPlayerAllSaves,
   getPlayerData,
 } from "../controllers/playerController";
@@ -10,6 +11,7 @@ const router = Router();
 
 // Rota para obter dados de um jogador específico
 router.post("/create", createNewPlayer);
+router.get("/", getAllPlayersData);
 router.get("/:playerId", getPlayerData);
 router.get("/:playerId/saves", getPlayerAllSaves);
 

@@ -8,6 +8,7 @@ import {
   obtainPlayerSaves,
 } from "../services/playerService";
 import AppError from "../exceptions/appError";
+import { playerDatabase } from "../models/playerDatabase";
 
 // Obter dados de um jogador específico
 export const getPlayerData = (req: Request, res: Response) => {
@@ -87,4 +88,9 @@ export const getPlayerAllSaves = (req: Request, res: Response) => {
       });
     }
   }
+};
+
+export const getAllPlayersData = (req: Request, res: Response) => {
+  console.log("Obtendo todos os dados de jogadores.");
+  return res.status(200).json({ type: "allPlayers", content: playerDatabase });
 };
