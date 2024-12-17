@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayerSaveData = void 0;
+exports.getSaveDatas = exports.getPlayerSaveData = void 0;
 const saveService_1 = require("../services/saveService");
+const saveData_1 = require("../models/saveData");
 function getPlayerSaveData(req, res) {
     console.log("Solicitando dados salvos...");
     console.log(req.body);
@@ -24,3 +25,9 @@ function getPlayerSaveData(req, res) {
     }
 }
 exports.getPlayerSaveData = getPlayerSaveData;
+function getSaveDatas(req, res) {
+    console.log("Obtendo todos os dados salvos.");
+    const saves = saveData_1.saveDatabase;
+    return res.status(200).json({ type: "allSaves", content: saves });
+}
+exports.getSaveDatas = getSaveDatas;

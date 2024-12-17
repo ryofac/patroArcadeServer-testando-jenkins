@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { findSaveData } from "../services/saveService";
+import { saveDatabase } from "../models/saveData";
 
 export function getPlayerSaveData(req: Request, res: Response) {
   console.log("Solicitando dados salvos...");
@@ -21,4 +22,11 @@ export function getPlayerSaveData(req: Request, res: Response) {
   } finally {
     console.log("Solicitação de dados de save finalizada.");
   }
+}
+
+export function getSaveDatas(req: Request, res: Response) {
+  console.log("Obtendo todos os dados salvos.");
+
+  const saves = saveDatabase;
+  return res.status(200).json({ type: "allSaves", content: saves });
 }

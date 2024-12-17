@@ -21,6 +21,7 @@ exports.tryToLogin = [
         console.log(`[LOGIN ATTEMPT]: ID: ${clientId} - ${username}.`);
         // Verificar se os dados de login são válidos
         if (!username || !password || isNaN(clientId)) {
+            console.log();
             return res.status(400).json({
                 type: "loginFailed",
                 content: "Dados de login inválidos.",

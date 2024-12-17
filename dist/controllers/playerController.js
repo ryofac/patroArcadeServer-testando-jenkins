@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlayerAllSaves = exports.createNewPlayer = exports.getLeaderBoard = exports.getPlayerData = void 0;
+exports.getAllPlayersData = exports.getPlayerAllSaves = exports.createNewPlayer = exports.getLeaderBoard = exports.getPlayerData = void 0;
 const playerService_1 = require("../services/playerService");
 const appError_1 = __importDefault(require("../exceptions/appError"));
+const playerDatabase_1 = require("../models/playerDatabase");
 // Obter dados de um jogador específico
 const getPlayerData = (req, res) => {
     console.log("getPlayerData acionado");
@@ -82,3 +83,8 @@ const getPlayerAllSaves = (req, res) => {
     }
 };
 exports.getPlayerAllSaves = getPlayerAllSaves;
+const getAllPlayersData = (req, res) => {
+    console.log("Obtendo todos os dados de jogadores.");
+    return res.status(200).json({ type: "allPlayers", content: playerDatabase_1.playerDatabase });
+};
+exports.getAllPlayersData = getAllPlayersData;
