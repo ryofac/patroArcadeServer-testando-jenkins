@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        docker { image 'node:22.12.0-alpine3.21' }
-    }
+    agent any
     tools {
         nodejs 'nodelatest' 
     }
